@@ -10,6 +10,14 @@ const HomePage = ({ onNavigate }: { onNavigate: (route: 'skills' | 'jobs') => vo
             {/* Abstract Background */}
             <div className="absolute inset-0 z-0">
                 <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-gray-900 via-gray-800 to-black opacity-100"></div>
+
+                {/* USER BACKGROUND IMAGE PLACEHOLDER */}
+                {/* Replace 'YOUR_IMAGE_URL' with your actual image path */}
+                <img
+                    src="./home.png"
+                    alt="Background"
+                    className="absolute inset-0 w-full h-full object-cover opacity-70 mix-blend-overlay"
+                />
                 {/* Glowing Orbs */}
                 <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-blue-600 rounded-full mix-blend-screen filter blur-[128px] opacity-20 animate-pulse"></div>
                 <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-purple-600 rounded-full mix-blend-screen filter blur-[128px] opacity-20 animate-pulse delay-1000"></div>
