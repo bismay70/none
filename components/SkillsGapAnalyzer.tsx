@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
 import { TrendingUp, Target, Clock, Award, BookOpen, Zap, ChevronRight, AlertCircle, DollarSign, Users } from 'lucide-react';
+import BackgroundLayout from './BackgroundLayout';
 
 // ============= TYPE DEFINITIONS =============
 type SkillInfo = {
@@ -133,13 +134,15 @@ const calculatePrerequisites = (skill: string): string[] => {
 
 // Stat Card Component
 const StatCard = ({ icon: Icon, label, value, color }: { icon: any; label: string; value: string; color: string }) => (
-  <div className="bg-white rounded-lg shadow-lg p-6">
+  <div className="bg-white/10 border border-white/10 backdrop-blur-md rounded-2xl p-6 shadow-xl">
     <div className="flex items-center justify-between">
       <div>
-        <p className="text-gray-600 text-sm">{label}</p>
-        <p className={`text-3xl font-bold text-${color}-600`}>{value}</p>
+        <p className="text-blue-200 text-sm font-medium">{label}</p>
+        <p className={`text-3xl font-bold text-white mt-1`}>{value}</p>
       </div>
-      <Icon className={`text-${color}-600`} size={32} />
+      <div className={`p-3 rounded-xl bg-white/5 border border-white/10`}>
+        <Icon className={`text-${color}-400`} size={32} />
+      </div>
     </div>
   </div>
 );
@@ -147,21 +150,21 @@ const StatCard = ({ icon: Icon, label, value, color }: { icon: any; label: strin
 // Skill Tag Component
 const SkillTag = ({ skill, variant = 'default', onRemove }: { skill: string; variant?: 'default' | 'matching' | 'missing' | 'target' | 'roadmap'; onRemove?: () => void }) => {
   const variants = {
-    default: 'bg-blue-100 text-blue-800',
-    matching: 'bg-green-100 text-green-800',
-    missing: 'bg-orange-100 text-orange-800',
-    target: 'bg-green-100 text-green-800',
-    roadmap: 'bg-indigo-100 text-indigo-800'
+    default: 'bg-white/10 text-blue-200 border-white/10',
+    matching: 'bg-green-500/20 text-green-300 border-green-500/30',
+    missing: 'bg-orange-500/20 text-orange-300 border-orange-500/30',
+    target: 'bg-green-500/20 text-green-300 border-green-500/30',
+    roadmap: 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30'
   };
 
   return (
-    <span className={`px-3 py-1 ${variants[variant]} rounded-full text-sm flex items-center`}>
+    <span className={`px-3 py-1 ${variants[variant]} border rounded-full text-sm flex items-center backdrop-blur-sm`}>
       {variant === 'matching' && '✓ '}
       {skill}
       {onRemove && (
         <button
           onClick={onRemove}
-          className="ml-2 hover:opacity-70"
+          className="ml-2 hover:text-white transition-colors"
         >×</button>
       )}
     </span>
@@ -173,41 +176,41 @@ const CurrentProfileForm = ({ currentRole, setCurrentRole, experienceYears, setE
   const allSkills = getAllSkills();
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-        <Award className="mr-2 text-blue-600" />
+    <div className="bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-8 shadow-xl">
+      <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
+        <Award className="mr-2 text-blue-400" />
         Current Profile
       </h2>
 
-      <div className="space-y-4">
+      <div className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Current Role</label>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Current Role</label>
           <select
             value={currentRole}
             onChange={(e) => setCurrentRole(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full p-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white outline-none"
           >
             {Object.keys(ROLES).map(role => (
-              <option key={role} value={role}>{role}</option>
+              <option key={role} value={role} className="bg-gray-900">{role}</option>
             ))}
           </select>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Experience (years)</label>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Experience (years)</label>
           <input
             type="number"
             value={experienceYears}
             onChange={(e) => setExperienceYears(parseInt(e.target.value))}
-            className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full p-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white outline-none"
             min="0"
             max="20"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Current Skills</label>
-          <div className="flex flex-wrap gap-2 mb-2">
+          <label className="block text-sm font-medium text-gray-300 mb-2">Current Skills</label>
+          <div className="flex flex-wrap gap-2 mb-3">
             {currentSkills.map(skill => (
               <SkillTag
                 key={skill}
@@ -224,11 +227,11 @@ const CurrentProfileForm = ({ currentRole, setCurrentRole, experienceYears, setE
                 e.target.value = "";
               }
             }}
-            className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full p-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white outline-none"
           >
-            <option value="">Add a skill...</option>
+            <option value="" className="bg-gray-900">Add a skill...</option>
             {allSkills.filter((s: string) => !currentSkills.includes(s)).map((skill: string) => (
-              <option key={skill} value={skill}>{skill}</option>
+              <option key={skill} value={skill} className="bg-gray-900">{skill}</option>
             ))}
           </select>
         </div>
@@ -240,44 +243,44 @@ const CurrentProfileForm = ({ currentRole, setCurrentRole, experienceYears, setE
 // Target Role Form Component
 const TargetRoleForm = ({ targetRole, setTargetRole, onAnalyze }: { targetRole: string; setTargetRole: (role: string) => void; onAnalyze: () => void }) => {
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-        <Target className="mr-2 text-green-600" />
+    <div className="bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-8 shadow-xl">
+      <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
+        <Target className="mr-2 text-green-400" />
         Target Role
       </h2>
 
-      <div className="space-y-4">
+      <div className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Target Role</label>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Target Role</label>
           <select
             value={targetRole}
             onChange={(e) => setTargetRole(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            className="w-full p-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent text-white outline-none"
           >
             {Object.keys(ROLES).map(role => (
-              <option key={role} value={role}>{role}</option>
+              <option key={role} value={role} className="bg-gray-900">{role}</option>
             ))}
           </select>
         </div>
 
-        <div className="bg-gray-50 rounded-lg p-4">
-          <p className="text-sm text-gray-600 mb-2">Required Skills:</p>
+        <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+          <p className="text-sm text-gray-400 mb-3">Required Skills:</p>
           <div className="flex flex-wrap gap-2">
             {ROLES[targetRole].required_skills.map((skill: string) => (
               <SkillTag key={skill} skill={skill} variant="target" />
             ))}
           </div>
-          <p className="text-sm text-gray-600 mt-3">
-            Typical Experience: {ROLES[targetRole].typical_experience}
+          <p className="text-sm text-gray-400 mt-4">
+            Typical Experience: <span className="text-white">{ROLES[targetRole].typical_experience}</span>
           </p>
-          <p className="text-sm text-gray-600">
-            Avg Salary: ${ROLES[targetRole].avg_salary.toLocaleString()}
+          <p className="text-sm text-gray-400">
+            Avg Salary: <span className="text-white">${ROLES[targetRole].avg_salary.toLocaleString()}</span>
           </p>
         </div>
 
         <button
           onClick={onAnalyze}
-          className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg flex items-center justify-center"
+          className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 rounded-xl font-bold hover:shadow-lg hover:shadow-blue-500/20 transition-all flex items-center justify-center text-lg"
         >
           <Zap className="mr-2" size={20} />
           Analyze Skills Gap
@@ -289,11 +292,11 @@ const TargetRoleForm = ({ targetRole, setTargetRole, onAnalyze }: { targetRole: 
 
 // Skills Comparison Component
 const SkillsComparison = ({ matchingSkills, missingSkills }: { matchingSkills: string[]; missingSkills: string[] }) => (
-  <div className="bg-white rounded-lg shadow-lg p-6">
-    <h3 className="text-xl font-bold text-gray-800 mb-4">Skills Comparison</h3>
-    <div className="space-y-3">
+  <div className="bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-8 shadow-xl">
+    <h3 className="text-xl font-bold text-white mb-6">Skills Comparison</h3>
+    <div className="space-y-6">
       <div>
-        <p className="text-sm font-medium text-green-600 mb-2">
+        <p className="text-sm font-medium text-green-400 mb-3">
           Matching Skills ({matchingSkills.length})
         </p>
         <div className="flex flex-wrap gap-2">
@@ -303,7 +306,7 @@ const SkillsComparison = ({ matchingSkills, missingSkills }: { matchingSkills: s
         </div>
       </div>
       <div>
-        <p className="text-sm font-medium text-orange-600 mb-2">
+        <p className="text-sm font-medium text-orange-400 mb-3">
           Skills to Learn ({missingSkills.length})
         </p>
         <div className="flex flex-wrap gap-2">
@@ -325,53 +328,55 @@ const CategoryRadarChart = ({ categoryScores }: { categoryScores: any }) => {
   }));
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6">
-      <h3 className="text-xl font-bold text-gray-800 mb-4">Category Strengths</h3>
-      <ResponsiveContainer width="100%" height={250}>
-        <RadarChart data={radarData}>
-          <PolarGrid />
-          <PolarAngleAxis dataKey="category" />
-          <PolarRadiusAxis angle={90} domain={[0, 100]} />
-          <Radar name="Your Skills" dataKey="current" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.6} />
-          <Radar name="Required" dataKey="required" stroke="#10b981" fill="#10b981" fillOpacity={0.3} />
-          <Legend />
-        </RadarChart>
-      </ResponsiveContainer>
+    <div className="bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-8 shadow-xl">
+      <h3 className="text-xl font-bold text-white mb-6">Category Strengths</h3>
+      <div className="h-[250px] w-full">
+        <ResponsiveContainer width="100%" height="100%">
+          <RadarChart data={radarData}>
+            <PolarGrid stroke="#ffffff33" />
+            <PolarAngleAxis dataKey="category" tick={{ fill: '#9ca3af', fontSize: 12 }} />
+            <PolarRadiusAxis angle={90} domain={[0, 100]} stroke="#ffffff33" tick={false} />
+            <Radar name="Your Skills" dataKey="current" stroke="#60a5fa" fill="#3b82f6" fillOpacity={0.5} />
+            <Radar name="Required" dataKey="required" stroke="#34d399" fill="#10b981" fillOpacity={0.2} />
+            <Legend wrapperStyle={{ color: '#fff' }} />
+          </RadarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 };
 
 // Learning Roadmap Component
 const LearningRoadmap = ({ roadmap }: { roadmap: any[] }) => (
-  <div className="bg-white rounded-lg shadow-lg p-6">
-    <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-      <BookOpen className="mr-2 text-indigo-600" />
+  <div className="bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-8 shadow-xl">
+    <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
+      <BookOpen className="mr-2 text-indigo-400" />
       Personalized Learning Roadmap
     </h3>
 
-    <div className="space-y-4">
+    <div className="space-y-6">
       {roadmap.map((phase, idx) => (
-        <div key={idx} className="border-l-4 border-indigo-600 pl-4 py-2">
+        <div key={idx} className="border-l-4 border-indigo-500 pl-6 py-2 relative">
           <div className="flex items-start justify-between mb-2">
             <div>
-              <h4 className="text-lg font-bold text-gray-800">
+              <h4 className="text-lg font-bold text-white">
                 Phase {phase.phase}: {phase.focus}
               </h4>
-              <p className="text-sm text-gray-600">
-                Duration: {phase.duration_months} months · Priority: {phase.priority}
+              <p className="text-sm text-gray-400">
+                Duration: <span className="text-indigo-300">{phase.duration_months} months</span> · Priority: {phase.priority}
               </p>
             </div>
-            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${phase.priority === 'High' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
+            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${phase.priority === 'High' ? 'bg-red-500/20 text-red-300 border border-red-500/30' : 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30'
               }`}>
               {phase.priority}
             </span>
           </div>
-          <p className="text-sm text-gray-600 mb-3">{phase.reasoning}</p>
+          <p className="text-gray-300 mb-4 text-sm">{phase.reasoning}</p>
           <div className="flex flex-wrap gap-2">
             {phase.skills_to_learn.map((skill: string) => (
-              <span key={skill} className="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-lg text-sm flex items-center">
+              <span key={skill} className="px-3 py-1 bg-indigo-500/20 border border-indigo-500/30 text-indigo-200 rounded-lg text-sm flex items-center">
                 {skill}
-                <ChevronRight size={16} className="ml-1" />
+                <ChevronRight size={14} className="ml-1 opacity-70" />
               </span>
             ))}
           </div>
@@ -383,22 +388,22 @@ const LearningRoadmap = ({ roadmap }: { roadmap: any[] }) => (
 
 // Transition Insights Component
 const TransitionInsights = ({ similarTransitions }: { similarTransitions: any }) => (
-  <div className="bg-white rounded-lg shadow-lg p-6">
-    <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
-      <Users className="mr-2 text-blue-600" />
+  <div className="bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-8 shadow-xl">
+    <h3 className="text-xl font-bold text-white mb-6 flex items-center">
+      <Users className="mr-2 text-blue-400" />
       Similar Transitions
     </h3>
-    <div className="space-y-3">
+    <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <span className="text-gray-600">Success Rate</span>
-        <span className="font-bold text-green-600">{similarTransitions.success_rate}</span>
+        <span className="text-gray-400">Success Rate</span>
+        <span className="font-bold text-green-400">{similarTransitions.success_rate}</span>
       </div>
       <div className="flex justify-between items-center">
-        <span className="text-gray-600">Avg Transition Time</span>
-        <span className="font-bold text-blue-600">{similarTransitions.avg_transition_time_months} months</span>
+        <span className="text-gray-400">Avg Transition Time</span>
+        <span className="font-bold text-blue-400">{similarTransitions.avg_transition_time_months} months</span>
       </div>
-      <div className="bg-blue-50 rounded-lg p-3 mt-4">
-        <p className="text-sm text-gray-700">
+      <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4 mt-6">
+        <p className="text-sm text-blue-200">
           This is a common career path with strong success rates. Focus on building practical projects while learning.
         </p>
       </div>
@@ -408,26 +413,26 @@ const TransitionInsights = ({ similarTransitions }: { similarTransitions: any })
 
 // Salary Projection Component
 const SalaryProjection = ({ salaryProjection }: { salaryProjection: any }) => (
-  <div className="bg-white rounded-lg shadow-lg p-6">
-    <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
-      <DollarSign className="mr-2 text-green-600" />
+  <div className="bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-8 shadow-xl">
+    <h3 className="text-xl font-bold text-white mb-6 flex items-center">
+      <DollarSign className="mr-2 text-green-400" />
       Salary Projection
     </h3>
-    <div className="space-y-3">
+    <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <span className="text-gray-600">Current Role</span>
-        <span className="font-bold">${salaryProjection.current.toLocaleString()}</span>
+        <span className="text-gray-400">Current Role</span>
+        <span className="font-bold text-white">${salaryProjection.current.toLocaleString()}</span>
       </div>
       <div className="flex justify-between items-center">
-        <span className="text-gray-600">Target Role</span>
-        <span className="font-bold text-green-600">${salaryProjection.target.toLocaleString()}</span>
+        <span className="text-gray-400">Target Role</span>
+        <span className="font-bold text-green-400">${salaryProjection.target.toLocaleString()}</span>
       </div>
       <div className="flex justify-between items-center">
-        <span className="text-gray-600">Potential Growth</span>
-        <span className="font-bold text-purple-600">+{salaryProjection.growth_percentage}%</span>
+        <span className="text-gray-400">Potential Growth</span>
+        <span className="font-bold text-purple-400">+{salaryProjection.growth_percentage}%</span>
       </div>
-      <div className="bg-green-50 rounded-lg p-3 mt-4">
-        <p className="text-sm text-gray-700">
+      <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4 mt-6">
+        <p className="text-sm text-green-200">
           Potential salary increase of ${(salaryProjection.target - salaryProjection.current).toLocaleString()} upon successful transition.
         </p>
       </div>
@@ -594,57 +599,59 @@ const SkillsGapAnalyzer = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Skills Gap Analysis Engine</h1>
-          <p className="text-gray-600">Analyze your career progression and plan your learning roadmap</p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          <CurrentProfileForm
-            currentRole={currentRole}
-            setCurrentRole={setCurrentRole}
-            experienceYears={experienceYears}
-            setExperienceYears={setExperienceYears}
-            currentSkills={currentSkills}
-            setCurrentSkills={setCurrentSkills}
-          />
-
-          <TargetRoleForm
-            targetRole={targetRole}
-            setTargetRole={setTargetRole}
-            onAnalyze={analyzeSkillGap}
-          />
-        </div>
-
-        {analysis && (
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <StatCard icon={TrendingUp} label="Readiness Score" value={`${analysis.readiness_score}%`} color="blue" />
-              <StatCard icon={AlertCircle} label="Skills Gap" value={`${analysis.skill_gap_percentage}%`} color="orange" />
-              <StatCard icon={Clock} label="Learning Time" value={`${analysis.estimated_learning_time_months}mo`} color="green" />
-              <StatCard icon={TrendingUp} label="Salary Growth" value={`+${analysis.salary_projection.growth_percentage}%`} color="purple" />
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <SkillsComparison
-                matchingSkills={analysis.matching_skills}
-                missingSkills={analysis.missing_skills}
-              />
-              <CategoryRadarChart categoryScores={analysis.category_scores} />
-            </div>
-
-            <LearningRoadmap roadmap={analysis.learning_roadmap} />
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <TransitionInsights similarTransitions={analysis.similar_transitions} />
-              <SalaryProjection salaryProjection={analysis.salary_projection} />
-            </div>
+    <BackgroundLayout>
+      <div className="p-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12 animate-fade-in-up">
+            <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-gray-400 mb-4">Skills Gap Analysis Engine</h1>
+            <p className="text-xl text-gray-400">Analyze your career progression and plan your learning roadmap</p>
           </div>
-        )}
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <CurrentProfileForm
+              currentRole={currentRole}
+              setCurrentRole={setCurrentRole}
+              experienceYears={experienceYears}
+              setExperienceYears={setExperienceYears}
+              currentSkills={currentSkills}
+              setCurrentSkills={setCurrentSkills}
+            />
+
+            <TargetRoleForm
+              targetRole={targetRole}
+              setTargetRole={setTargetRole}
+              onAnalyze={analyzeSkillGap}
+            />
+          </div>
+
+          {analysis && (
+            <div className="space-y-8 animate-fade-in-up">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <StatCard icon={TrendingUp} label="Readiness Score" value={`${analysis.readiness_score}%`} color="blue" />
+                <StatCard icon={AlertCircle} label="Skills Gap" value={`${analysis.skill_gap_percentage}%`} color="orange" />
+                <StatCard icon={Clock} label="Learning Time" value={`${analysis.estimated_learning_time_months}mo`} color="green" />
+                <StatCard icon={TrendingUp} label="Salary Growth" value={`+${analysis.salary_projection.growth_percentage}%`} color="purple" />
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <SkillsComparison
+                  matchingSkills={analysis.matching_skills}
+                  missingSkills={analysis.missing_skills}
+                />
+                <CategoryRadarChart categoryScores={analysis.category_scores} />
+              </div>
+
+              <LearningRoadmap roadmap={analysis.learning_roadmap} />
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <TransitionInsights similarTransitions={analysis.similar_transitions} />
+                <SalaryProjection salaryProjection={analysis.salary_projection} />
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </BackgroundLayout>
   );
 };
 
