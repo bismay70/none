@@ -30,8 +30,8 @@ const HomePage = ({ onNavigate }: { onNavigate: (route: 'skills' | 'jobs' | 'gen
                     <div className="max-w-7xl mx-auto flex items-center justify-between">
                         {/* Logo */}
                         <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo(0, 0)}>
-                            <div className="w-10 h-10 bg-blue-600/20 rounded-xl flex items-center justify-center border border-blue-500/30 backdrop-blur-sm">
-                                <Briefcase className="text-blue-400" size={20} />
+                            <div className="w-10 h-10 relative rounded-xl overflow-hidden border border-blue-500/30 backdrop-blur-sm">
+                                <Image src="/image1.png" alt="Logo" fill className="object-cover" />
                             </div>
                             <span className="text-2xl font-bold tracking-tight text-white">CareerHub</span>
                         </div>
@@ -65,10 +65,10 @@ const HomePage = ({ onNavigate }: { onNavigate: (route: 'skills' | 'jobs' | 'gen
                 {/* Main Content */}
                 <main className="flex-1 flex flex-col justify-center pt-32 pb-10 px-6 max-w-7xl mx-auto w-full">
 
-                    {/* Hero Section with Image */}
-                    <div className="flex flex-col-reverse lg:flex-row items-center gap-12 mb-20">
+                    {/* Hero Section */}
+                    <div className="flex flex-col items-center text-center gap-12 mb-20 animate-fade-in-up">
                         {/* Text Content */}
-                        <div className="flex-1 animate-fade-in-up">
+                        <div className="max-w-3xl">
                             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-sm font-medium text-blue-300 mb-6">
                                 <Zap size={16} className="fill-blue-300" />
                                 <span>AI-Powered Career Acceleration</span>
@@ -77,32 +77,17 @@ const HomePage = ({ onNavigate }: { onNavigate: (route: 'skills' | 'jobs' | 'gen
                                 Shape Your Future.<br />
                                 Master Your Career.
                             </h1>
-                            <p className="text-xl text-gray-400 max-w-xl leading-relaxed mb-8">
+                            <p className="text-xl text-gray-400 leading-relaxed mb-8">
                                 Navigate the tech landscape with data-driven insights. Discover opportunities that match your potential and bridge the skills gap to your dream role.
                             </p>
 
-                            <div className="flex gap-4">
+                            <div className="flex gap-4 justify-center">
                                 <button onClick={() => onNavigate('jobs')} className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold shadow-lg shadow-blue-600/20 transition-all hover:scale-105">
                                     Browse Jobs
                                 </button>
                                 <button onClick={() => onNavigate('skills')} className="px-8 py-3 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-xl font-bold transition-all hover:scale-105">
                                     Analyze Skills
                                 </button>
-                            </div>
-                        </div>
-
-                        {/* Image Content */}
-                        <div className="flex-1 relative animate-fade-in-up delay-100 flex justify-center">
-                            <div className="relative w-full aspect-square max-w-[500px]">
-                                <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/20 to-purple-500/20 rounded-full blur-3xl -z-10 animate-pulse"></div>
-                                <Image
-                                    src="/image1.png"
-                                    alt="Career Growth Visualization"
-                                    width={600}
-                                    height={600}
-                                    className="object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500"
-                                    priority
-                                />
                             </div>
                         </div>
                     </div>
@@ -183,17 +168,7 @@ const HomePage = ({ onNavigate }: { onNavigate: (route: 'skills' | 'jobs' | 'gen
 
                     </div>
 
-                    {/* Footer info */}
-                    <div className="mt-20 flex gap-8 text-sm text-gray-500 font-medium justify-center">
-                        <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                            Live Market Data
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 rounded-full bg-blue-500"></div>
-                            AI Powered
-                        </div>
-                    </div>
+
 
                 </main>
             </div>
