@@ -387,21 +387,54 @@ const ProfileForm = ({
           </div>
 
           <div className="col-span-2">
-            <label className="block text-sm font-medium text-gray-300 mb-2">Resume</label>
-            <div className="border-2 border-dashed border-white/10 rounded-lg p-6 text-center hover:border-blue-500/50 transition-colors cursor-pointer bg-white/5"
-              onClick={() => setFormData({ ...formData, resumeName: 'resume-' + Date.now() + '.pdf' })}>
-              <Upload className="mx-auto text-gray-400 mb-2" size={32} />
-              {formData.resumeName ? (
-                <p className="text-green-400 font-medium flex items-center justify-center gap-2">
-                  <CheckCircle size={16} />
-                  {formData.resumeName}
-                </p>
-              ) : (
-                <>
-                  <p className="text-gray-300 font-medium">Click to upload resume</p>
-                  <p className="text-gray-500 text-sm">PDF, DOCX up to 5MB</p>
-                </>
-              )}
+            <label className="block text-sm font-medium text-gray-300 mb-4">Resume / Documents</label>
+
+            <div className="bg-white/5 rounded-xl border border-white/10 overflow-hidden">
+              <table className="w-full text-left">
+                <thead className="bg-white/5 text-gray-400 text-sm">
+                  <tr>
+                    <th className="px-6 py-3 font-medium">Document Name</th>
+                    <th className="px-6 py-3 font-medium">Type</th>
+                    <th className="px-6 py-3 font-medium text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5">
+                  {formData.resumeName ? (
+                    <tr className="group hover:bg-white/5 transition-colors">
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3 text-white font-medium">
+                          <FileText className="text-blue-400" size={20} />
+                          {formData.resumeName}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-gray-400 text-sm">PDF/PSF</td>
+                      <td className="px-6 py-4 text-right">
+                        <button
+                          type="button"
+                          onClick={() => setFormData({ ...formData, resumeName: '' })}
+                          className="text-red-400 hover:text-red-300 p-2 hover:bg-red-500/10 rounded-lg transition-colors"
+                        >
+                          <X size={18} />
+                        </button>
+                      </td>
+                    </tr>
+                  ) : (
+                    <tr>
+                      <td colSpan={3} className="px-6 py-8 text-center text-gray-500">
+                        No documents uploaded
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+
+              <div
+                onClick={() => setFormData({ ...formData, resumeName: 'resume-' + Date.now() + '.pdf' })}
+                className="border-t border-white/10 p-4 bg-white/5 hover:bg-white/10 transition-colors cursor-pointer flex items-center justify-center gap-2 text-blue-400 font-medium"
+              >
+                <Upload size={18} />
+                Upload New Resume (PDF/PSF)
+              </div>
             </div>
           </div>
         </div>
@@ -429,6 +462,33 @@ const ProfileForm = ({
 };
 
 // Jobs Discovery Page Component
+const CompanyTicker = () => {
+  const companies = [
+    { name: 'Google', color: 'text-white' },
+    { name: 'Microsoft', color: 'text-blue-400' },
+    { name: 'Deloitte', color: 'text-green-500' },
+    { name: 'Cognizant', color: 'text-blue-300' },
+    { name: 'Amazon', color: 'text-orange-400' },
+    { name: 'Meta', color: 'text-blue-500' },
+    { name: 'Netflix', color: 'text-red-500' },
+    { name: 'Apple', color: 'text-gray-200' },
+  ];
+
+  return (
+    <div className="w-full overflow-hidden bg-white/5 border-y border-white/5 backdrop-blur-sm py-4 mb-6">
+      <div className="flex animate-scroll whitespace-nowrap">
+        {[...companies, ...companies, ...companies].map((company, index) => (
+          <div key={index} className="flex items-center mx-8">
+            <span className={`text-xl font-bold ${company.color} opacity-80 hover:opacity-100 transition-opacity`}>
+              {company.name}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const JobsDiscoveryPage = ({
   jobs,
   savedJobIds,
@@ -539,6 +599,8 @@ const JobsDiscoveryPage = ({
     }
   };
 
+
+
   const JobCard = ({ job }: { job: Job }) => {
     const isSaved = savedJobIds.includes(job.id);
     const isApplied = appliedJobIds.includes(job.id);
@@ -622,6 +684,7 @@ const JobsDiscoveryPage = ({
 
   return (
     <div className="min-h-screen">
+      <CompanyTicker />
       <div className="bg-black/20 backdrop-blur-md sticky top-16 z-30 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <h1 className="text-2xl font-bold text-white mb-4">Job Discovery</h1>
@@ -1087,17 +1150,31 @@ const JobDiscoveryApp = () => {
   const [pendingApplyJobId, setPendingApplyJobId] = useState<number | null>(null);
 
   // Load state from localStorage on mount
+  // Load state from localStorage on mount
   useEffect(() => {
+    // Wrap in try-catch to handle potential JSON parse errors safely
     try {
-      const saved = localStorage.getItem('savedJobs');
-      const applied = localStorage.getItem('appliedJobs');
-      const userProfile = localStorage.getItem('candidateProfile');
+      if (typeof window !== 'undefined') {
+        const saved = localStorage.getItem('savedJobs');
+        const applied = localStorage.getItem('appliedJobs');
+        const userProfile = localStorage.getItem('candidateProfile');
 
-      if (saved) setSavedJobIds(JSON.parse(saved));
-      if (applied) setAppliedJobIds(JSON.parse(applied));
-      if (userProfile) setProfile(JSON.parse(userProfile));
+        if (saved) {
+          setSavedJobIds(JSON.parse(saved));
+        }
+        if (applied) {
+          setAppliedJobIds(JSON.parse(applied));
+        }
+        if (userProfile) {
+          const parsedProfile = JSON.parse(userProfile);
+          // Ensure it's not null/empty
+          if (parsedProfile && parsedProfile.name) {
+            setProfile(parsedProfile);
+          }
+        }
+      }
     } catch (e) {
-      console.error('Failed to load state:', e);
+      console.error('Failed to load state from localStorage:', e);
     }
   }, []);
 

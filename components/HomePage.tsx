@@ -9,8 +9,18 @@ const HomePage = ({ onNavigate }: { onNavigate: (route: 'skills' | 'jobs') => vo
         <BackgroundLayout>
             <div className="relative z-10 max-w-7xl mx-auto px-6 py-20 min-h-screen flex flex-col justify-center">
 
+                {/* Home Page Navbar */}
+                <nav className="absolute top-0 left-0 w-full px-6 py-6 flex items-center justify-between z-20">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-blue-600/20 rounded-xl flex items-center justify-center border border-blue-500/30 backdrop-blur-sm">
+                            <Briefcase className="text-blue-400" size={20} />
+                        </div>
+                        <span className="text-2xl font-bold tracking-tight text-white">Innox</span>
+                    </div>
+                </nav>
+
                 {/* Header Section */}
-                <div className="mb-20 animate-fade-in-up">
+                <div className="mt-20 mb-20 animate-fade-in-up">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-sm font-medium text-blue-300 mb-6">
                         <Zap size={16} className="fill-blue-300" />
                         <span>AI-Powered Career Acceleration</span>

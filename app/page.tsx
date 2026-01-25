@@ -4,6 +4,7 @@ import { useState } from 'react';
 import SkillsGapAnalyzer from '@/components/SkillsGapAnalyzer';
 import JobDiscoveryApp from '@/components/JobDiscoveryApp';
 import HomePage from '@/components/HomePage';
+import Footer from '@/components/Footer';
 import { Briefcase, TrendingUp, Home } from 'lucide-react';
 
 export default function App() {
@@ -63,6 +64,7 @@ export default function App() {
         {activeRoute === 'home' && <HomePage onNavigate={setActiveRoute} />}
         {activeRoute === 'skills' && <SkillsGapAnalyzer />}
         {activeRoute === 'jobs' && <JobDiscoveryApp />}
+        <Footer />
       </div>
     </div>
   );
