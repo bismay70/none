@@ -3,12 +3,13 @@
 import { useState } from 'react';
 import SkillsGapAnalyzer from '@/components/SkillsGapAnalyzer';
 import JobDiscoveryApp from '@/components/JobDiscoveryApp';
+import JobDescriptionGenerator from '@/components/JobDescriptionGenerator';
 import HomePage from '@/components/HomePage';
 import Footer from '@/components/Footer';
-import { Briefcase, TrendingUp, Home } from 'lucide-react';
+import { Briefcase, TrendingUp, Home, FileText } from 'lucide-react';
 
 export default function App() {
-  const [activeRoute, setActiveRoute] = useState<'home' | 'skills' | 'jobs'>('home');
+  const [activeRoute, setActiveRoute] = useState<'home' | 'skills' | 'jobs' | 'generator'>('home');
 
   return (
     <div className="min-h-screen bg-gray-900">
@@ -53,6 +54,16 @@ export default function App() {
                   <Briefcase size={18} className="mr-2" />
                   Job Discovery
                 </button>
+                <button
+                  onClick={() => setActiveRoute('generator')}
+                  className={`px-4 py-2.5 rounded-lg font-medium transition-all flex items-center ${activeRoute === 'generator'
+                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20'
+                    : 'bg-white/5 text-gray-300 hover:bg-white/10'
+                    }`}
+                >
+                  <FileText size={18} className="mr-2" />
+                  Job Generator
+                </button>
               </div>
             </div>
           </div>
@@ -64,6 +75,7 @@ export default function App() {
         {activeRoute === 'home' && <HomePage onNavigate={setActiveRoute} />}
         {activeRoute === 'skills' && <SkillsGapAnalyzer />}
         {activeRoute === 'jobs' && <JobDiscoveryApp />}
+        {activeRoute === 'generator' && <JobDescriptionGenerator />}
         <Footer />
       </div>
     </div>

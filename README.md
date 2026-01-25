@@ -97,4 +97,4 @@ npm run start
 
 ## Acknowledgements
 
-- Built by Innox with contributions from Bismay Mohit
+- Built by Bismay and Mohit
